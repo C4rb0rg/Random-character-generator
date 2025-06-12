@@ -1,0 +1,363 @@
+/* Import Google Fonts for DM Mono */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+
+body {
+    font-family: 'DM Mono', monospace; /* Changed font to DM Mono */
+    background-color: #f6f8f7; /* Changed background to grey */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110vh;
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling issues with positioning */
+}
+
+.generator-container {
+    display: grid;
+    /* Define 3 columns: left controls, character display (auto for content width), right controls */
+    grid-template-columns: 200px auto 90px; /* Fixed width for controls, auto for character */
+    grid-template-rows: auto auto auto; /* Three rows: controls, save, randomize */
+    grid-template-areas:
+        "controls-left character-display controls-right"
+        "save-btn save-btn save-btn" /* New row for save button */
+        "randomize-btn randomize-btn randomize-btn"; /* Randomize button spans all columns */
+    gap: 2rem; /* Gap between grid items */
+    padding: 2.5rem;
+    box-sizing: border-box;
+    max-width: 900px; /* Allow it to take full width */
+    justify-items: center; /* Center content horizontally within grid cells */
+    align-items: start; /* Align content to the top within grid cells */
+}
+
+.character-display {
+    background-color: #f6f8f7;
+    grid-area: character-display; /* Assign to the middle grid area */
+    justify-self: center;  /* Add this */
+    align-self: center;  
+    position: relative;
+    width: 320px; /* Base width for the character */
+    height: 380px; /* Base height for the character */
+    margin-bottom: 0; /* Remove margin-bottom as grid handles spacing */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    translate: -15px 0; /* Slightly offset to the left for a unique look */
+}
+
+.character-part {
+    position: absolute;
+    height: auto;
+    max-width: 100%; /* Ensure parts don't overflow the container */
+    max-height: 100%; /* Ensure parts don't overflow the container */
+    pointer-events: none; /* Allows clicks to pass through to underlying elements if needed */
+    object-fit: contain; /* Ensures the SVG scales down while maintaining aspect ratio */
+}
+
+/* Define CSS Variables for easy positioning and sizing */
+/* Adjust these values to fine-tune placement and size for each part */
+:root {
+    /* Hat/Hair */
+    --hat-top: -100px;
+    --hat-left: -20px;
+    --hat-width: 85%; /* Hat takes full width of the display area */
+
+    /* Eyebrows */
+    --eyebrows-top: 100px;
+    --eyebrows-left: 10px;
+    --eyebrows-width: 50%; /* Eyebrows should be proportional to the face */
+
+    /* Sclera (White of the eyes, or sunglasses) */
+    --sclera-top: 130px;
+    --sclera-left: 10px;
+    --sclera-width: 50%; /* Sclera should be proportional to the face */
+
+    /* Pupils */
+    --pupils-top: 145px; /* Slightly below sclera, within its bounds */
+    --pupils-left: 20px;
+    --pupils-width: 40%; /* Pupils should be proportional to sclera/face */
+
+    /* Nose */
+    --nose-top: 170px; /* Positioned between the eyes */
+    --nose-left: 70px;
+    --nose-width: 15%; /* Nose should be proportional to the face */
+
+    /* Mouth */
+    --mouth-top: 280px; /* Positioned below nose */
+    --mouth-left: 60px;
+    --mouth-width: 30%; /* Mouth should be proportional to the face */
+}
+
+
+/* Apply variables to character parts */
+#face-part {
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* ADDED: Ensure face attempts to fill full height as well */
+    object-fit: contain; /* Explicitly ensure aspect ratio is maintained for the face */
+}
+
+#hat-part {
+    z-index: 70;
+    top: var(--hat-top);
+    left: var(--hat-left);
+    width: var(--hat-width);
+}
+
+#eyebrows-part {
+    z-index: 40;
+    top: var(--eyebrows-top);
+    left: var(--eyebrows-left);
+    width: var(--eyebrows-width);
+}
+
+#sclera-part {
+    z-index: 20;
+    top: var(--sclera-top);
+    left: var(--sclera-left);
+    width: var(--sclera-width);
+}
+
+#pupils-part {
+    z-index: 30;
+    top: var(--pupils-top);
+    left: var(--pupils-left);
+    width: var(--pupils-width);
+}
+
+#nose-part {
+    z-index: 15; /* Adjusted z-index to be below sclera and pupils */
+    top: var(--nose-top);
+    left: var(--nose-left);
+    width: var(--nose-width);
+}
+
+#mouth-part {
+    z-index: 60;
+    top: var(--mouth-top);
+    left: var(--mouth-left);
+    width: var(--mouth-width);
+}
+
+/* New styles for left and right control columns */
+.controls-left {
+    grid-area: controls-left; /* Assign to the left grid area */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Space between control groups */
+    align-items: center; /* Center items within the column */
+}
+
+.controls-right {
+    grid-area: controls-right; /* Assign to the right grid area */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Space between control groups */
+    align-items: center; /* Center items within the column */
+}
+
+/* Updated .control-group for minimal style */
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%; /* Take full width of its column */
+    max-width: 180px; /* Constrain width of control groups */
+    /* Removed border, background, and shadow for minimal look */
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0; /* Remove padding */
+    align-items: center; /* Center content for the minimal look */
+    translate: -30px 0; /* Slightly offset to the right for a unique look */
+}
+
+.control-group label {
+    color: #262525; /* Darker color for labels on light background */
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: lighter;
+    font-family: inherit; /* Ensure labels use DM Mono */
+    margin-bottom: 0.5rem;
+    text-transform: uppercase; /* Convert text to uppercase */
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center items vertically in the row */
+    gap: 0.3rem; /* Slightly reduced gap */
+    /* Removed border, background, and shadow for minimal look */
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0; /* Remove padding */
+}
+
+button {
+    background-color: white; /* White inside */
+    color: #262525; /* Darker text for contrast on white */
+    padding: 0.75rem 1.25rem;
+    border: 2px solid #333; /* Pencil-esque stroke */
+    border-radius: 3px; /* Keep rounded corners */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: lighter;
+    transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
+    flex-grow: 1; /* Allow regular buttons to grow */
+    /* Add a subtle box shadow to simulate inconsistency */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -1px -1px 3px rgba(0, 0, 0, 0.1);
+    font-family: inherit; /* Ensure buttons use DM Mono */
+}
+
+button:hover {
+    background-color: #f0f0f0; /* Slightly grey on hover */
+    border-color: #000; /* Darker border on hover */
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+button:active {
+    background-color: #e0e0e0; /* Even darker grey on active */
+    border-color: #222; /* Even darker border on active */
+    transform: translateY(0);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Flatter shadow on active */
+}
+
+/* Styles for the new arrow buttons */
+.arrow-btn {
+    flex-grow: 0; /* Prevent arrow buttons from growing too much */
+    padding: 0; /* Remove padding as the image will define the size */
+    font-size: 0; /* Hide the Unicode character */
+    line-height: 1; /* Ensure text fits */
+    background-color: transparent; /* Make arrow buttons transparent */
+    color: transparent; /* Hide text color */
+    border: none; /* Remove border for arrows */
+    border-radius: 0; /* Remove border-radius for arrows */
+    box-shadow: none; /* Remove shadow for arrows */
+    width: 14px; /* Set a fixed width for the arrow image */
+    height: 14px; /* Set a fixed height for the arrow image */
+    background-image: url('./assets/vector.svg'); /* Set the background image */
+    background-size: contain; /* Scale the image to fit within the button */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image */
+}
+
+.arrow-btn:hover {
+    background-color: transparent; /* Keep transparent on hover */
+    border-color: transparent; /* Keep transparent border on hover */
+    transform: translateY(-1px);
+    box-shadow: none; /* Remove shadow on hover */
+}
+
+.arrow-btn:active {
+    background-color: transparent; /* Keep transparent on active */
+    border-color: transparent; /* Keep transparent border on active */
+    transform: translateY(0);
+    box-shadow: none; /* Remove shadow on active */
+}
+
+/* Specific style for the right arrow to flip it horizontally */
+.arrow-btn.right-arrow {
+    transform: scaleX(-1); /* Flip the image horizontally */
+}
+
+.arrow-btn.right-arrow:hover {
+    transform: scaleX(-1) translateY(-1px); /* Maintain flip and hover effect */
+}
+
+.arrow-btn.right-arrow:active {
+    transform: scaleX(-1) translateY(0); /* Maintain flip and active effect */
+}
+
+/* Styles for the thumbnail image - removed border and background */
+.thumbnail {
+    width: 50px; /* Reduced width for thumbnail */
+    height: 50px; /* Reduced height for thumbnail */
+    border: none; /* Removed hand-drawn border effect */
+    border-radius: 0; /* Removed rounded corners */
+    object-fit: contain; /* Ensure the SVG scales without distortion */
+    background-color: transparent; /* Make background transparent */
+    box-shadow: none; /* Removed subtle shadow */
+    padding: 10px; /* Removed padding */
+}
+
+/* Styles for the new Save button */
+#save-btn {
+    grid-area: save-btn; /* Assign to the new save button grid area */
+    background-color: #f9632d; /* Orange for save, matching randomize */
+    color: white; /* White text for contrast on orange */
+    border: none; /* Remove hand-drawn border for save button */
+    border-radius: 3px; /* Keep rounded corners */
+    cursor: pointer;    
+    font-size: 1.1rem; /* Match randomize button font size */
+    font-weight: lighter;
+    transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
+    padding: 0.75rem 1.5rem; /* Match randomize button padding */
+    margin-bottom: 1px; /* Small gap between save and randomize */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Match randomize button shadow */
+    font-family: inherit; /* Ensure buttons use DM Mono */
+    justify-self: center; /* Center the button within its grid area */
+    text-transform: uppercase; /* Ensure text is uppercase */
+    width: auto; /* Allow button to wrap content */
+}
+
+#save-btn:hover {
+    background-color: #e8521d; /* Darker orange on hover */
+    border-color: transparent; /* Ensure no border appears on hover */
+}
+
+#save-btn:active {
+    background-color: #d7410c; /* Even darker orange on active */
+    border-color: transparent; /* Ensure no border appears on active */
+}
+
+
+#randomize-btn {
+    grid-area: randomize-btn; /* Assign to the randomize button grid area */
+    background-color: #f9632d; /* Orange for randomize */
+    color: white; /* White text for contrast on orange */
+    border: none; /* Remove hand-drawn border for randomize button */
+    margin-top: 0; /* Adjusted as save button provides margin */
+    width: auto; /* Changed from 100% to auto to wrap content */
+    padding: 0.75rem 1.5rem; /* Adjusted padding for a smaller button */
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Restore regular shadow for randomize */
+    justify-self: center; /* Center the button within its grid area */
+    text-transform: uppercase; /* Ensure text is uppercase */
+}
+
+#randomize-btn:hover {
+    background-color: #e8521d; /* Darker orange on hover */
+    border-color: transparent; /* Ensure no border appears on hover */
+}
+#randomize-btn:active {
+    background-color: #d7410c; /* Even darker orange on active */
+    border-color: transparent; /* Ensure no border appears on active */
+}
+
+/* Responsive adjustments for smaller screens (mobile) */
+@media (max-width: 639px) {
+    .generator-container {
+        grid-template-columns: 1fr; /* Single column layout for mobile */
+        grid-template-areas:
+            "character-display"
+            "controls-left"
+            "controls-right"
+            "save-btn" /* Stack save button above randomize */
+            "randomize-btn";
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .controls-left,
+    .controls-right {
+        width: 100%; /* Take full width on mobile */
+        max-width: none; /* Remove max-width constraint */
+    }
+
+    .control-group {
+        max-width: 90%; /* Adjust width for smaller screens */
+    }
+}

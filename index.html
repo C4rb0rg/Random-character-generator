@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Enforce correct aspect ratio and responsiveness */
+    .character-display {
+      width: 90vw;
+      max-width: 320px;
+      aspect-ratio: 4 / 5;
+      position: relative;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #face-part {
+      width: auto;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @media (max-width: 639px) {
+      .generator-container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "character-display"
+          "controls-left"
+          "controls-right"
+          "save-btn"
+          "randomize-btn";
+        gap: 1.5rem;
+        padding: 1rem;
+      }
+
+      .controls-left,
+      .controls-right {
+        width: 100%;
+        max-width: none;
+      }
+
+      .control-group {
+        max-width: 90%;
+      }
+
+      .character-display {
+        width: 100%;
+        max-width: 320px;
+        aspect-ratio: 4 / 5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img id="app-logo" src="./assets/hok logo.svg" alt="App Logo"
+       style="position: absolute; top: 20px; left: 20px; width: 80px; height: auto; z-index: 100; border-radius: 8px; height: 32px; width: 128px;">
+
+  <div class="generator-container">
+    <div class="controls-left">
+      <div class="control-group">
+        <label>Hair/Hat</label>
+        <div class="control-buttons">
+          <button class="arrow-btn" onclick="changePart('hat', -1)">&#9664;</button>
+          <img id="hat-thumbnail" class="thumbnail" src="" alt="Current Hat/Hair">
+          <button class="arrow-btn right-arrow" onclick="changePart('hat', 1)">&#9654;</button>
+        </div>
+      </div>
+
+      <div class="control-group" id="eyebrows-control-group">
+        <label>Eyebrows</label>
+        <div class="control-buttons">
+          <button class="arrow-btn" onclick="changePart('eyebrows', -1)">&#9664;</button>
+          <img id="eyebrows-thumbnail" class="thumbnail" src="" alt="Current Eyebrows">
+          <button class="arrow-btn right-arrow" onclick="changePart('eyebrows', 1)">&#9654;</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Eyes</label>
+        <div class="control-buttons">
+          <button class="arrow-btn" onclick="changePart('sclera', -1)">&#9664;</button>
+          <img id="sclera-thumbnail" class="thumbnail" src="" alt="Current Eyes">
+          <button class="arrow-btn right-arrow" onclick="changePart('sclera', 1)">&#9654;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="character-display">
+      <img id="face-part" class="character-part" src="" alt="Face">
+      <img id="sclera-part" class="character-part" src="" alt="Sclera">
+      <img id="pupils-part" class="character-part" src="" alt="Pupils">
+      <img id="eyebrows-part" class="character-part" src="" alt="Eyebrows">
+      <img id="nose-part" class="character-part" src="" alt="Nose">
+      <img id="mouth-part" class="character-part" src="" alt="Mouth">
+      <img id="hat-part" class="character-part" src="" alt="Hat">
+    </div>
+
+    <div class="controls-right">
+      <div class="control-group" id="pupils-control-group">
+        <label>Pupils</label>
+        <div class="control-buttons">
+          <button class="arrow-btn" onclick="changePart('pupils', -1)">&#9664;</button>
+          <img id="pupils-thumbnail" class="thumbnail" src="" alt="Current Pupils">
+          <button class="arrow-btn right-arrow" onclick="changePart('pupils', 1)">&#9654;</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Nose</label>
+        <div class="control-buttons">
+          <button class="arrow-btn" onclick="changePart('nose', -1)">&#9664;</button>
+          <img id="nose-thumbnail" class="thumbnail" src="" alt="Current Nose">
+          <button class="arrow-btn right-arrow" onclick="changePart('nose', 1)">&#9654;</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Mouth</label>
+        <div class="control-buttons">
+          <button class="arrow-btn" onclick="changePart('mouth', -1)">&#9664;</button>
+          <img id="mouth-thumbnail" class="thumbnail" src="" alt="Current Mouth">
+          <button class="arrow-btn right-arrow" onclick="changePart('mouth', 1)">&#9654;</button>
+        </div>
+      </div>
+    </div>
+
+    <button id="save-btn" onclick="saveCharacter()">SAVE CHARACTER</button>
+    <button id="randomize-btn" onclick="randomizeCharacter()">RANDOMISE</button>
+  </div>
+
+  <script src="script.js" defer></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</body>
+</html>
