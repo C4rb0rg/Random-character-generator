@@ -5,46 +5,45 @@ const ASSET_BASE_PATH = './assets/';
 // IMPORTANT: Replace these placeholder filenames with your actual SVG filenames
 // and adjust the counts if you have more or fewer files.
 const assets = {
-    face: 'face.svg', // Assumed to be outside a folder
-    pupils: [
-        'pupil 1.svg',
-        'pupil 2.svg',
-        'pupil 3.svg'
-    ],
-    mouth: [
-        'mouth 1.svg',
-        'mouth 2.svg',
-        'mouth 3.svg',
-        'mouth 4.svg',
-        'mouth 5.svg'
-    ],
-    nose: [
-        'nose 1.svg',
-        'nose 2.svg',
-        'nose 3.svg',
-        'nose 4.svg',
-        'nose 5.svg'
-    ],
-    eyebrows: [
-        'brow 1.svg',
-        'brow 2.svg',
-        'brow 3.svg',
-        'brow 4.svg',
-        'brow 5.svg'
-    ],
-    // sclera has special cases: regular, sunglasses, sclera with eyebrow
-    sclera: [
-        'sclera.svg', // Index 0: regular sclera
-        'sunglasses.svg', // Index 1: sunglasses (hides pupils)
-        'sclera with lashes.svg' // Index 2: sclera with eyebrow (hides separate eyebrows)
-    ],
-    hat: [ // This folder contains hair and hats
-        '', // Index 0: Empty string for "no hair" option
-        'hat 1.svg',
-        'hat 2.svg',
-        'hat 3.svg',
-        'hat 4.svg'
-    ]
+  face: 'face.svg',
+  pupils: [
+    'pupil-1.svg',
+    'pupil-2.svg',
+    'pupil-3.svg'
+  ],
+  mouth: [
+    'mouth-1.svg',
+    'mouth-2.svg',
+    'mouth-3.svg',
+    'mouth-4.svg',
+    'mouth-5.svg'
+  ],
+  nose: [
+    'nose-1.svg',
+    'nose-2.svg',
+    'nose-3.svg',
+    'nose-4.svg',
+    'nose-5.svg'
+  ],
+  eyebrows: [
+    'brow-1.svg',
+    'brow-2.svg',
+    'brow-3.svg',
+    'brow-4.svg',
+    'brow-5.svg'
+  ],
+  sclera: [
+    'sclera.svg',
+    'sunglasses.svg',
+    'sclera-with-lashes.svg'
+  ],
+  hat: [
+    '',
+    'hat-1.svg',
+    'hat-2.svg',
+    'hat-3.svg',
+    'hat-4.svg'
+  ]
 };
 
 // Keep track of the current index for each part
