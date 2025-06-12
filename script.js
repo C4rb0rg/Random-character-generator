@@ -5,7 +5,7 @@ const ASSET_BASE_PATH = './assets/';
 // IMPORTANT: Replace these placeholder filenames with your actual SVG filenames
 // and adjust the counts if you have more or fewer files.
 const assets = {
-  face: 'face.svg',
+  face: 'Face.svg',
   pupils: [
     'pupil-1.svg',
     'pupil-2.svg',
