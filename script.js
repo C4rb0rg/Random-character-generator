@@ -19,11 +19,11 @@ const assets = {
     'mouth-5.svg'
   ],
   nose: [
-    'nose-1.svg',
-    'nose-2.svg',
-    'nose-3.svg',
-    'nose-4.svg',
-    'nose-5.svg'
+    'Nose-1.svg',
+    'Nose-2.svg',
+    'Nose-3.svg',
+    'Nose-4.svg',
+    'Nose-5.svg'
   ],
   eyebrows: [
     'brow-1.svg',
