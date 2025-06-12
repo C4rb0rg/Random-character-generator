@@ -1,5 +1,5 @@
 // Define the base path for your assets
-const ASSET_BASE_PATH = '/assets/';
+const ASSET_BASE_PATH = './assets/';
 
 // Define the available assets for each part
 // IMPORTANT: Replace these placeholder filenames with your actual SVG filenames
