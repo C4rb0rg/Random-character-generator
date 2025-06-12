@@ -38,11 +38,10 @@ const assets = {
     'sclera-with-lashes.svg'
   ],
   hat: [
-    '',
-    'hat-1.svg',
-    'hat-2.svg',
-    'hat-3.svg',
-    'hat-4.svg'
+    'Hat-1.svg',
+    'Hat-2.svg',
+    'Hat-3.svg',
+    'Hat-4.svg'
   ]
 };
 
